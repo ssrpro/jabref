@@ -3,14 +3,7 @@ package org.jabref.preferences;
 import java.nio.file.Path;
 import java.util.List;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,6 +15,8 @@ public class GuiPreferences {
     private final DoubleProperty positionY;
     private final DoubleProperty sizeX;
     private final DoubleProperty sizeY;
+    private final IntegerProperty globalSearchWidth;
+    private final IntegerProperty globalSearchHeight;
 
     private final BooleanProperty windowMaximised;
 
@@ -47,7 +42,9 @@ public class GuiPreferences {
                           String lastSelectedIdBasedFetcher,
                           DiffMode mergeDiffMode,
                           double sidePaneWidth,
-                          boolean mergeShowChangedFieldsOnly) {
+                          boolean mergeShowChangedFieldsOnly,
+                          int globalSearchWidth,
+                          int globalSearchHeight) {
         this.positionX = new SimpleDoubleProperty(positionX);
         this.positionY = new SimpleDoubleProperty(positionY);
         this.sizeX = new SimpleDoubleProperty(sizeX);
@@ -60,6 +57,8 @@ public class GuiPreferences {
         this.sidePaneWidth = new SimpleDoubleProperty(sidePaneWidth);
         this.fileHistory = fileHistory;
         this.mergeShowChangedFieldsOnly = new SimpleBooleanProperty(mergeShowChangedFieldsOnly);
+        this.globalSearchWidth = new SimpleIntegerProperty(globalSearchWidth);
+        this.globalSearchHeight = new SimpleIntegerProperty(globalSearchHeight);
     }
 
     public double getPositionX() {
@@ -192,5 +191,29 @@ public class GuiPreferences {
 
     public void setIsMergedShowChangedFielsOnly(boolean showChangedFieldsOnly) {
         mergeShowChangedFieldsOnly.setValue(showChangedFieldsOnly);
+    }
+
+    public void setGlobalSearchWidth(int width) {
+        globalSearchWidth.set(width);
+    }
+
+    public void setGlobalSearchHeight(int height) {
+        globalSearchHeight.set(height);
+    }
+
+    public int getGlobalSearchWidth() {
+        return globalSearchWidth.get();
+    }
+
+    public int getGlobalSearchHeight() {
+        return globalSearchHeight.get();
+    }
+
+    public IntegerProperty getGlobalSearchWidthProperty() {
+        return globalSearchWidth;
+    }
+
+    public IntegerProperty getGlobalSearchHeightProperty() {
+        return globalSearchHeight;
     }
 }

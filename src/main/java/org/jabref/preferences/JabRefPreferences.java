@@ -302,7 +302,9 @@ public class JabRefPreferences implements PreferencesService {
     public static final String SEND_OS_DATA = "sendOSData";
     public static final String SEND_TIMEZONE_DATA = "sendTimezoneData";
     public static final String VALIDATE_IN_ENTRY_EDITOR = "validateInEntryEditor";
-
+    // GlobalSearchResultDialog related
+    public static final String GLOBAL_SEARCH_WIDTH = "globalSearchWidth";
+    public static final String GLOBAL_SEARCH_HEIGHT = "globalSearchHeight";
     /**
      * The OpenOffice/LibreOffice connection preferences are: OO_PATH main directory for OO/LO installation, used to detect location on Win/macOS when using manual connect OO_EXECUTABLE_PATH path to soffice-file OO_JARS_PATH directory that contains juh.jar, jurt.jar, ridl.jar, unoil.jar OO_SYNC_WHEN_CITING true if the reference list is updated when adding a new citation OO_SHOW_PANEL true if the OO panel is shown on startup OO_USE_ALL_OPEN_DATABASES true if all databases should be used when citing OO_BIBLIOGRAPHY_STYLE_FILE path to the used style file OO_EXTERNAL_STYLE_FILES list with paths to external style files STYLES_*_* size and position of "Select style" dialog
      */
@@ -596,6 +598,8 @@ public class JabRefPreferences implements PreferencesService {
         defaults.put(SEND_OS_DATA, Boolean.FALSE);
         defaults.put(SEND_TIMEZONE_DATA, Boolean.FALSE);
         defaults.put(VALIDATE_IN_ENTRY_EDITOR, Boolean.TRUE);
+        defaults.put(GLOBAL_SEARCH_WIDTH, 616);
+        defaults.put(GLOBAL_SEARCH_HEIGHT, 229);
         defaults.put(AUTO_COMPLETE, Boolean.FALSE);
         defaults.put(AUTOCOMPLETER_FIRSTNAME_MODE, AutoCompleteFirstNameMode.BOTH.name());
         defaults.put(AUTOCOMPLETER_FIRST_LAST, Boolean.FALSE); // "Autocomplete names in 'Firstname Lastname' format only"
@@ -2511,7 +2515,9 @@ public class JabRefPreferences implements PreferencesService {
                 get(ID_ENTRY_GENERATOR),
                 DiffMode.parse(get(MERGE_ENTRIES_DIFF_MODE)),
                 getDouble(SIDE_PANE_WIDTH),
-                getBoolean(MERGE_SHOW_ONLY_CHANGED_FIELDS));
+                getBoolean(MERGE_SHOW_ONLY_CHANGED_FIELDS),
+                getInt(GLOBAL_SEARCH_WIDTH),
+                getInt(GLOBAL_SEARCH_HEIGHT));
 
         EasyBind.listen(guiPreferences.positionXProperty(), (obs, oldValue, newValue) -> putDouble(POS_X, newValue.doubleValue()));
         EasyBind.listen(guiPreferences.positionYProperty(), (obs, oldValue, newValue) -> putDouble(POS_Y, newValue.doubleValue()));
@@ -2537,6 +2543,9 @@ public class JabRefPreferences implements PreferencesService {
         EasyBind.listen(guiPreferences.mergeDiffModeProperty(), (obs, oldValue, newValue) -> put(MERGE_ENTRIES_DIFF_MODE, newValue.name()));
         EasyBind.listen(guiPreferences.sidePaneWidthProperty(), (obs, oldValue, newValue) -> putDouble(SIDE_PANE_WIDTH, newValue.doubleValue()));
         EasyBind.listen(guiPreferences.mergeShowChangedFieldOnlyProperty(), (obs, oldValue, newValue) -> putBoolean(MERGE_SHOW_ONLY_CHANGED_FIELDS, newValue));
+
+        EasyBind.listen(guiPreferences.getGlobalSearchWidthProperty(), (obs, oldValue, newValue) -> putInt(GLOBAL_SEARCH_WIDTH, newValue));
+        EasyBind.listen(guiPreferences.getGlobalSearchHeightProperty(), (obs, oldValue, newValue) -> putInt(GLOBAL_SEARCH_HEIGHT, newValue));
 
         return guiPreferences;
     }

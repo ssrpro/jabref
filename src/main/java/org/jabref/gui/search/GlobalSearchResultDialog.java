@@ -2,12 +2,14 @@ package org.jabref.gui.search;
 
 import javax.swing.undo.UndoManager;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javafx.stage.WindowEvent;
 import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.icon.IconTheme;
@@ -64,6 +66,9 @@ public class GlobalSearchResultDialog extends BaseDialog<Void> {
         }
 
         resultsTable.getSelectionModel().selectedItemProperty().addListener((obs, old, newValue) -> {
+            preferencesService.getGuiPreferences().setGlobalSearchWidth((int)getWidth());
+            preferencesService.getGuiPreferences().setGlobalSearchHeight((int)getHeight());
+
             if (newValue != null) {
                 previewViewer.setEntry(newValue.getEntry());
             } else {
@@ -80,6 +85,11 @@ public class GlobalSearchResultDialog extends BaseDialog<Void> {
             keepOnTop.setGraphic(value
                     ? IconTheme.JabRefIcons.KEEP_ON_TOP.getGraphicNode()
                     : IconTheme.JabRefIcons.KEEP_ON_TOP_OFF.getGraphicNode());
+        });
+
+        getDialogPane().getScene().getWindow().addEventHandler(WindowEvent.WINDOW_SHOWN, event -> {
+            getDialogPane().setPrefWidth(preferencesService.getGuiPreferences().getGlobalSearchWidth());
+            getDialogPane().setPrefHeight(preferencesService.getGuiPreferences().getGlobalSearchHeight());
         });
     }
 }
